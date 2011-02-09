@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Terminal</title>
+		<style>
+			body {
+				font-size: 12px;
+				line-height: 16px;
+				font-family: monospace;
+				color: #fff;
+				background: #000;
+			}
+			#terminal {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				left: 0;
+				top: 0;
+				overflow: auto;
+			}
+			.capture {
+				position: absolute;
+				width: 98%;
+				height: 100%;
+				left: 0;
+				top: 0;
+				border: 0;
+				outline: 0;
+				margin: 0;
+				padding: 0;
+				opacity: 0.01;
+				color: red;
+				background: transparent;
+				line-height: 2px;
+			}
+			.clear-anchor {
+				height: 0;
+				line-height: 0;
+				float: left;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="terminal"></div>
+		<script src="mootools.js"></script>
+		<script src="mootools.terminal.js"></script>
+		<script src="mootools.program.js"></script>
+		<script src="mootools.program.shell.js"></script>
+		<script src="mootools.program.clear.js"></script>
+		<script>
+			new Terminal('terminal', {
+				'programs': {
+					'sh': {
+						'handler': Program.Shell
+					},
+					'clear': {
+						'handler': Program.Clear
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
