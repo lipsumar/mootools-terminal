@@ -48,6 +48,7 @@
 		<script src="mootools.program.js"></script>
 		<script src="mootools.program.shell.js"></script>
 		<script src="mootools.program.clear.js"></script>
+		<script src="mootools.program.echo.js"></script>
 		<script>
 			new Terminal('terminal', {
 				'programs': {
@@ -56,6 +57,9 @@
 					},
 					'clear': {
 						'handler': Program.Clear
+					},
+					'echo': {
+						'handler': Program.Echo
 					}
 				}
 			});

@@ -5,9 +5,10 @@
 		'options': {
 			'onRender': function(){}
 		},
-		'initialize': function(terminal, options) {
+		'initialize': function(terminal, options, args) {
 			this.setOptions(options);
 			this.terminal = terminal;
+			this.args = args;
 		},
 		'exit': function() {
 			var self = this;

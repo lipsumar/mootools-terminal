@@ -1,7 +1,5 @@
 (function(){
 	
-	var _next = 0;
-	
 	Program.Clear = new Class({
 		'Extends': Program,
 		'options': {

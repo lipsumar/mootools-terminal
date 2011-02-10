@@ -59,13 +59,13 @@
 			
 			return {
 				'size': size,
-				'x': (size.x / 7).floor(),
+				'x': (size.x / 7).floor() - 1,
 				'y': (size.y / 16).floor()
 			};
 		},
-		'launch': function(key) {
+		'launch': function(key, arguments) {
 			if (this.options.programs[key] != undefined && this.options.programs[key].handler != null) {
-				this.program = new this.options.programs[key].handler(this, this.options.programs[key].defaults);
+				this.program = new this.options.programs[key].handler(this, this.options.programs[key].defaults, arguments);
 				this.program.run();
 			} else {
 				this.data.buffer[++this.data.row] = key + this.options.messages.unknown;
