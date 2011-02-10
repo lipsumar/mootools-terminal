@@ -1,5 +1,20 @@
 (function(){
 	
+	function _escape(raw) {
+		var replacements = {
+			'&': '&amp;',
+			' ': '&nbsp;',
+			'<': '&lt;',
+			'>': '&gt;'
+		};
+		
+		Object.each(replacements, function(_value, _key){
+			raw = raw.replace(new RegExp(_key, 'g'), _value);
+		});
+		
+		return raw;
+	}
+	
 	window.Terminal = new Class({
 		'Implements': [Options, Events],
 		'options': {
@@ -61,7 +76,6 @@
 			};
 		},
 		'launch': function(key, args) {
-			console.log('launching', args)
 			if (this.options.programs[key] != undefined && this.options.programs[key].handler != null) {
 				this.program = new this.options.programs[key].handler(this, this.options.programs[key].defaults);
 				this.program.run(args);
@@ -74,8 +88,7 @@
 			if (type != 'over') {
 				this.data.row++;
 			}
-			this.data.buffer[this.data.row] = raw;
-			this.data.buffer[this.data.row].type = true;
+			this.data.buffer[this.data.row] = {'raw': raw, 'type': (type || 'plain')};
 			this.render();
 		},
 		'render': function() {
@@ -83,16 +96,18 @@
 				size = self.getSize();
 			
 			self.element.innerHTML = '';
-			
 			Array.each(self.data.buffer, function(line){
-				if (line.type == 'html') {
-					self.element.innerHTML += line;
-				} else {
-					while (line.length > size.x) {
-						self.element.innerHTML += line.slice(0, size.x - 1) + '<br />';
-						line = line.slice(size.x - 1);
-					}
-					self.element.innerHTML += line + '<br />';
+				switch (line.type) {
+					case 'html':
+						self.element.innerHTML += line.raw;
+						break;
+					default:
+						while (line.length > size.x) {
+							self.element.innerHTML += _escape(line.raw.slice(0, size.x - 1)) + '<br />';
+							line.raw = line.raw.slice(size.x - 1);
+						}
+						self.element.innerHTML += _escape(line.raw) + '<br />';
+						break;
 				}
 			});
 			
