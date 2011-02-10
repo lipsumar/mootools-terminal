@@ -72,6 +72,13 @@
 				this.shell.prompt();
 			}
 		},
+		'echo': function(raw, type) {
+			this.data.row++;
+			this.data.buffer[this.data.row] = raw;
+			this.data.buffer[this.data.row].type = true;
+			
+			this.render();
+		},
 		'render': function() {
 			var self = this,
 				size = self.getSize();
@@ -79,7 +86,7 @@
 			self.element.innerHTML = '';
 			
 			Array.each(self.data.buffer, function(line){
-				if (line.isHtml == true) {
+				if (line.type == 'html') {
 					self.element.innerHTML += line;
 				} else {
 					while (line.length > size.x) {

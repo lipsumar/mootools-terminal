@@ -34,9 +34,7 @@
 			}
 		},
 		'prompt': function() {
-			var data = this.terminal.data;
-			data.buffer[++data.row] = this.terminal.options.messages.prompt;
-			this.terminal.render();
+			this.terminal.echo(this.terminal.options.messages.prompt);
 		}
 	});
 	

@@ -11,10 +11,7 @@
 			}
 		},
 		'run': function() {
-			this.terminal.data.row++;
-			this.terminal.data.buffer[this.terminal.data.row] = '<div class="clear" />';
-			this.terminal.data.buffer[this.terminal.data.row].isHtml = true;
-			this.terminal.render();
+			this.terminal.echo('<div class="clear-spacer" />', 'html');
 		}
 	});
 	
