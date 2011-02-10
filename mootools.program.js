@@ -5,15 +5,14 @@
 		'options': {
 			'onRender': function(){}
 		},
-		'initialize': function(terminal, options, args) {
+		'initialize': function(terminal, options) {
 			this.setOptions(options);
 			this.terminal = terminal;
-			this.args = args;
 		},
 		'handle': function(e) {
 			
 		},
-		'run': function() {
+		'run': function(args) {
 			
 		},
 		'exit': function() {

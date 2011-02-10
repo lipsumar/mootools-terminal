@@ -15,13 +15,12 @@
 			
 			switch (e.key) {
 				case 'enter':
-					var command = (self.command || '').trim(),
-						parts = command.split(' ');
+					var command = (self.command || '').trim();
 					
 					if (command.length > 0) {
 						self.history.include(command);
 						self.last = self.history.length;
-						terminal.launch(parts[0], parts.slice(1));
+						terminal.launch(command.substr(0, command.indexOf(' ')), command.substr(command.indexOf(' ')).trim());
 					} else {
 						self.prompt();
 					}

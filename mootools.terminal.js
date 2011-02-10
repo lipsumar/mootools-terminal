@@ -60,10 +60,11 @@
 				'y': (size.y / 16).floor()
 			};
 		},
-		'launch': function(key, arguments) {
+		'launch': function(key, args) {
+			console.log('launching', args)
 			if (this.options.programs[key] != undefined && this.options.programs[key].handler != null) {
-				this.program = new this.options.programs[key].handler(this, this.options.programs[key].defaults, arguments);
-				this.program.run();
+				this.program = new this.options.programs[key].handler(this, this.options.programs[key].defaults);
+				this.program.run(args);
 			} else {
 				this.echo(key + this.options.messages.unknown);
 				this.shell.prompt();
