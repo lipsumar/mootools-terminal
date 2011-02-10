@@ -96,7 +96,7 @@
 				size = self.getSize();
 			
 			self.element.innerHTML = '';
-			Array.each(self.data.buffer, function(line){
+			self.data.buffer.each(function(line){
 				switch (line.type) {
 					case 'html':
 						self.element.innerHTML += line.raw;

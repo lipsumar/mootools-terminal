@@ -10,20 +10,16 @@
 		'Extends': Program,
 		'run': function(args) {
 			var self = this,
+				commands = [],
 				parser = new OptionParser({
 					'switches': _switches,
 					'onValid': function(_switch, _value) {
 						switch(_switch[1]) {
-							case 'no-newline':
-								self.strip = true;
-								break;
 							case 'help':
 								self.help();
-								self.abort = true;
 								break;
 							case 'version':
 								self.version();
-								self.abort = true;
 								break;
 						}
 					},
@@ -31,13 +27,11 @@
 						self.raw = _string;
 					},
 					'onParsed': function(results) {
-						if (self.strip == true) {
-							self.raw = self.raw.replace(/\n+$/, '');
-						}
-						if (self.abort != true) {
+						self.raw = (self.raw || '').replace(/\n+$/, '');
+						if (self.raw) {
 							self.terminal.echo(self.raw);
-							self.exit();
 						}
+						self.exit();
 					}
 				}).parse(args);
 		},
