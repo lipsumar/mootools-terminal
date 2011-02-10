@@ -2,6 +2,9 @@
 	
 	window.Program = new Class({
 		'Implements': [Options, Events],
+		'options': {
+			'onRender': function(){}
+		},
 		'initialize': function(terminal, options) {
 			this.setOptions(options);
 			this.terminal = terminal;

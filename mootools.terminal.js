@@ -3,6 +3,10 @@
 	window.Terminal = new Class({
 		'Implements': [Options, Events],
 		'options': {
+			'messages': {
+				'prompt': 'guest@localhost:/# ',
+				'unknown': ': command not found'
+			},
 			'programs': {
 				'sh': {
 					'handler': null,
@@ -36,10 +40,10 @@
 				'class': 'capture',
 				'events': {
 					'keydown': function() {
-						self.keydowned = true;
+						self.keyed = true;
 					},
 					'keyup': function(e) {
-						if (self.keydowned) {
+						if (self.keyed) {
 							e.input = '' + this.value;
 							(self.program || self.shell).handle.apply((self.program || self.shell), [e]);
 						}
@@ -59,25 +63,23 @@
 				'y': (size.y / 16).floor()
 			};
 		},
-		'getEmptyLines': function() {
-			var i = this.data.buffer.length - 1;
-			
-			while (i--) {
-				if (this.data.buffer[i] != '') {
-					break;
-				}
+		'launch': function(key) {
+			if (this.options.programs[key] != undefined && this.options.programs[key].handler != null) {
+				this.program = new this.options.programs[key].handler(this, this.options.programs[key].defaults);
+				this.program.run();
+			} else {
+				this.data.buffer[++this.data.row] = key + this.options.messages.unknown;
+				this.shell.prompt();
 			}
-			
-			return this.data.buffer.length - i - 1;
 		},
 		'render': function() {
 			var self = this,
-				size = this.getSize();
+				size = self.getSize();
 			
 			self.element.innerHTML = '';
 			
 			Array.each(self.data.buffer, function(line){
-				if (line.html == true) {
+				if (line.isHtml == true) {
 					self.element.innerHTML += line;
 				} else {
 					while (line.length > size.x) {
@@ -89,12 +91,7 @@
 			});
 			
 			document.title = 'Terminal - ' + size.x + 'x' + size.y;
-			
-			if (self.anchor != undefined) {
-				document.location = '#' + self.anchor;
-			} else {
-				self.element.scrollTo(0, self.element.getScrollSize().y);
-			}
+			(self.program || self.shell).fireEvent('render');
 		}
 	});
 	

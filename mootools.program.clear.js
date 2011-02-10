@@ -4,21 +4,17 @@
 	
 	Program.Clear = new Class({
 		'Extends': Program,
-		'initialize': function(terminal, options) {
-			this.parent(terminal, options);
-			var size = terminal.getSize(),
-				rows = size.y - terminal.getEmptyLines() + 1;
-			
-			terminal.data.row++;
-			terminal.data.buffer[terminal.data.row] = '<a class="clear-anchor" id="clear-' + ++_next + '" />';
-			terminal.data.buffer[terminal.data.row].html = true;
-			terminal.anchor = 'clear-' + _next;
-			
-			while (rows--) {
-				terminal.data.buffer[terminal.data.buffer.length] = '';
+		'options': {
+			'onRender': function() {
+				this.terminal.element.scrollTop = this.terminal.element.scrollHeight;
+				this.exit();
 			}
-			
-			this.exit();
+		},
+		'run': function() {
+			this.terminal.data.row++;
+			this.terminal.data.buffer[this.terminal.data.row] = '<div class="clear" />';
+			this.terminal.data.buffer[this.terminal.data.row].isHtml = true;
+			this.terminal.render();
 		}
 	});
 	
