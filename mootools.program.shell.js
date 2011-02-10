@@ -33,25 +33,23 @@
 					if (self.history.length > 0) {
 						self.last = (self.last == 0 ? self.history.length - 1 : self.last - 1);
 						self.terminal.capture.value = self.history[self.last];
-						self.terminal.capture.fireEvent('keyup', [{}]);
+						self.terminal.capture.fireEvent('keydown', [{}]);
 					}
 					break;
 				case 'down':
 					if (self.history.length > 0 && self.last != self.history.length) {
-						self.last = self.last + 1;
-						if (self.last == self.history.length) {
-							self.terminal.echo(self.terminal.options.messages.prompt);
-							self.command = '';
-							break;
-						}
 						self.terminal.capture.value = self.history[self.last];
-						self.terminal.capture.fireEvent('keyup', [{}]);
+						self.terminal.capture.fireEvent('keydown', [{}]);
+						self.last = self.last + 1;
+					} else {
+						self.command = '';
+						self.last = self.history.length;
+						terminal.echo(terminal.options.messages.prompt, 'over');
 					}
 					break;
 				default:
 					self.command = e.input;
-					data.buffer[data.row] = terminal.options.messages.prompt + self.command;
-					terminal.render();
+					terminal.echo(terminal.options.messages.prompt + self.command, 'over');
 					break;
 			}
 		},

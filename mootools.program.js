@@ -10,6 +10,12 @@
 			this.terminal = terminal;
 			this.args = args;
 		},
+		'handle': function(e) {
+			
+		},
+		'run': function() {
+			
+		},
 		'exit': function() {
 			var self = this;
 			setTimeout(function(){

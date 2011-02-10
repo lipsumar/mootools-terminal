@@ -39,14 +39,11 @@
 				'type': 'text',
 				'class': 'capture',
 				'events': {
-					'keydown': function() {
-						self.keyed = true;
-					},
-					'keyup': function(e) {
-						if (self.keyed) {
-							e.input = '' + this.value;
+					'keydown': function(e) {
+						setTimeout(function(){
+							e.input = self.capture.value;
 							(self.program || self.shell).handle.apply((self.program || self.shell), [e]);
-						}
+						}, 0);
 					}
 				}
 			}).inject(document.body);
@@ -68,15 +65,16 @@
 				this.program = new this.options.programs[key].handler(this, this.options.programs[key].defaults, arguments);
 				this.program.run();
 			} else {
-				this.data.buffer[++this.data.row] = key + this.options.messages.unknown;
+				this.echo(key + this.options.messages.unknown);
 				this.shell.prompt();
 			}
 		},
 		'echo': function(raw, type) {
-			this.data.row++;
+			if (type != 'over') {
+				this.data.row++;
+			}
 			this.data.buffer[this.data.row] = raw;
 			this.data.buffer[this.data.row].type = true;
-			
 			this.render();
 		},
 		'render': function() {
