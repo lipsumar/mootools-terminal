@@ -3,6 +3,14 @@
 	<head>
 		<title>Terminal</title>
 		<style>
+		
+			@font-face {
+			  font-family: 'Inconsolata';
+			  font-style: normal;
+			  font-weight: normal;
+			  src: local('Inconsolata'), url('Inconsolata.woff') format('woff');
+			}
+		
 			body {
 				font-size: 12px;
 				line-height: 16px;
@@ -17,6 +25,13 @@
 				left: 0;
 				top: 0;
 				overflow: auto;
+				font-size:16px;
+				line-height: 18px;
+				font-family: Inconsolata,monospace;
+				color: #fff;
+				background: -webkit-radial-gradient(center center, contain, rgba(0, 62, 0, 1), rgba(0, 23, 0, 1)) center center no-repeat, black;
+				text-shadow: 0 0 5px #C8C8C8;
+				
 			}
 			.capture {
 				position: absolute;
@@ -38,10 +53,38 @@
 				height: 100%;
 				width: 1;
 			}
+			
+			#blink-prompt{
+				display: inline-block;
+				width: 7px;
+				height: 13px;
+				background: white;
+				position: relative;
+				left: 2px;
+				top: 2px;
+			}
+			
+			#interlace{
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				left: 0;
+				top: 0;
+				border: 0;
+				outline: 0;
+				margin: 0;
+				padding: 0;
+				background:transparent url(interlace.png) repeat 0 0;
+				opacity:0.2;
+			}
+			
+			#terminal span.error{color:red;}
+			#terminal span.success{color:green;}
 		</style>
 	</head>
 	<body>
 		<div id="terminal"></div>
+		<div id="interlace"></div>
 		<script src="mootools.js"></script>
 		<script src="mootools.extensions.js"></script>
 		<script src="mootools.optionparser.js"></script>
@@ -50,20 +93,40 @@
 		<script src="mootools.program.shell.js"></script>
 		<script src="mootools.program.clear.js"></script>
 		<script src="mootools.program.echo.js"></script>
+		<script src="mootools.program.whoami.js"></script>
+		<script src="mootools.program.set.js"></script>
+		<script src="mootools.program.get.js"></script>
+		<script src="mootools.program.reboot.js"></script>
+		
 		<script>
-			new Terminal('terminal', {
-				'programs': {
-					'sh': {
-						'handler': Program.Shell
-					},
-					'clear': {
-						'handler': Program.Clear
-					},
-					'echo': {
-						'handler': Program.Echo
+			new Terminal(
+				'terminal',
+				'guest',
+				{//server
+					'url': 'server.php',
+					
+				}, 
+				{//options
+					'programs': {
+						'sh': {
+							'handler': Program.Shell
+						},
+						'clear': {
+							'handler': Program.Clear
+						},
+						'echo': {
+							'handler': Program.Echo
+						},
+						'whoami': {
+							'handler': Program.Whoami
+						},
+						'set':{'handler':Program.Set},
+						'get':{'handler':Program.Get},
+						'reboot':{'handler':Program.Reboot},
+						'connect':{'handler':'openServerConnexion'}
 					}
 				}
-			});
+			);
 		</script>
 	</body>
 </html>

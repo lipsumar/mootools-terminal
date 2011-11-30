@@ -1,3 +1,4 @@
+if(typeof console == 'undefined') var console={log:function(e){return;}};
 /*
 ---
 MooTools: the javascript framework

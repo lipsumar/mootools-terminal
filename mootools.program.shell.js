@@ -43,17 +43,17 @@
 					} else {
 						self.command = '';
 						self.last = self.history.length;
-						terminal.echo(terminal.options.messages.prompt, 'over');
+						terminal.echo(terminal.getPrompt(), 'over');
 					}
 					break;
 				default:
 					self.command = e.input;
-					terminal.echo(terminal.options.messages.prompt + self.command, 'over');
+					terminal.echo(terminal.getPrompt() + self.command, 'over');
 					break;
 			}
 		},
 		'prompt': function() {
-			this.terminal.echo(this.terminal.options.messages.prompt);
+			this.terminal.echo(this.terminal.getPrompt());
 		}
 	});
 	
